@@ -15,6 +15,7 @@ Return an array of all the universal strings in words1. You may return the answe
 
 Example 1:
 
+
 Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["e","o"]
 Output: ["facebook","google","leetcode"]
 Example 2:
