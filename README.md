@@ -8,15 +8,7 @@ Each problem has its own folder, which includes:
 - The problem statement
 - Solution codes in C++, Python, Java, and other languages
 - A README file explaining the approach and complexity analysis
-
-## Problems Solved
-
-### 2530. Maximal Score After Applying K Operations
-
-- **Difficulty**: Medium
-- **Solution**: Max heap (priority queue) based approach to maximize the score after performing exactly `k` operations.
-- **Tags**: Heaps, Greedy, Arrays
-- **Time Complexity**: O(k log n)
+- Solved alot of easy, medium and hard problems. (90+)
 
 **Languages Supported**:
 - C++: `solution.cpp`
