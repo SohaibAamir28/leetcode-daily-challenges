@@ -1,49 +1,40 @@
 class Solution {
     public:
-        vector<string> findAllRecipes(vector<string>& recipes,
-                                      vector<vector<string>>& ingredients,
-                                      vector<string>& supplies) {
-            // Track available ingredients and recipes
-            unordered_set<string> available(supplies.begin(), supplies.end());
-    
-            // Queue to process recipe indices
-            queue<int> recipeQueue;
-            for (int idx = 0; idx < recipes.size(); ++idx) {
-                recipeQueue.push(idx);
+        vector<int> maxPoints(vector<vector<int>>& grid, vector<int>& queries) {
+            int rows = grid.size(), cols = grid[0].size();
+            vector<pair<int, int>> sortedQueries;
+            for (int i = 0; i < queries.size(); i++) {
+                sortedQueries.emplace_back(queries[i], i);
             }
+            sort(sortedQueries.begin(), sortedQueries.end());
     
-            vector<string> createdRecipes;
-            int lastSize = -1;
+            vector<int> result(queries.size(), 0);
+            priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<>> minHeap;
+            vector<vector<bool>> visited(rows, vector<bool>(cols, false));
     
-            // Continue while we keep finding new recipes
-            while (static_cast<int>(available.size()) > lastSize) {
-                lastSize = available.size();
-                int queueSize = recipeQueue.size();
+            minHeap.emplace(grid[0][0], make_pair(0, 0));
+            visited[0][0] = true;
+            int points = 0;
+            vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
     
-                // Process all recipes in current queue
-                while (queueSize-- > 0) {
-                    int recipeIdx = recipeQueue.front();
-                    recipeQueue.pop();
-                    bool canCreate = true;
+            for (auto& [queryVal, queryIdx] : sortedQueries) {
+                while (!minHeap.empty() && minHeap.top().first < queryVal) {
+                    auto [val, pos] = minHeap.top();
+                    minHeap.pop();
+                    int row = pos.first, col = pos.second;
+                    points++;
     
-                    // Check if all ingredients are available
-                    for (string& ingredient : ingredients[recipeIdx]) {
-                        if (!available.count(ingredient)) {
-                            canCreate = false;
-                            break;
+                    for (auto& [dr, dc] : directions) {
+                        int nr = row + dr, nc = col + dc;
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc]) {
+                            minHeap.emplace(grid[nr][nc], make_pair(nr, nc));
+                            visited[nr][nc] = true;
                         }
                     }
-    
-                    if (!canCreate) {
-                        recipeQueue.push(recipeIdx);
-                    } else {
-                        // Recipe can be created - add to available items
-                        available.insert(recipes[recipeIdx]);
-                        createdRecipes.push_back(recipes[recipeIdx]);
-                    }
                 }
+                result[queryIdx] = points;
             }
     
-            return createdRecipes;
+            return result;
         }
     };

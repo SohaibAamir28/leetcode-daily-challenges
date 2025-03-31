@@ -1,52 +1,45 @@
 
-# 2115. Find All Possible Recipes from Given Supplies
+# 2503. Maximum Number of Points From Grid Queries
 
 ## Problem Description
 
 ``` 
 
-You have information about n different recipes. You are given a string array recipes and a 2D string array ingredients. The ith recipe has the name recipes[i], and you can create it if you have all the needed ingredients from ingredients[i]. A recipe can also be an ingredient for other recipes, i.e., ingredients[i] may contain a string that is in recipes.
+You are given an m x n integer matrix grid and an array queries of size k.
 
-You are also given a string array supplies containing all the ingredients that you initially have, and you have an infinite supply of all of them.
+Find an array answer of size k such that for each integer queries[i] you start in the top left cell of the matrix and repeat the following process:
 
-Return a list of all the recipes that you can create. You may return the answer in any order.
+If queries[i] is strictly greater than the value of the current cell that you are in, then you get one point if it is your first time visiting this cell, and you can move to any adjacent cell in all 4 directions: up, down, left, and right.
+Otherwise, you do not get any points, and you end this process.
+After the process, answer[i] is the maximum number of points you can get. Note that for each query you are allowed to visit the same cell multiple times.
 
-Note that two recipes may contain each other in their ingredients.
+Return the resulting array answer.
 
  
 
 Example 1:
 
-Input: recipes = ["bread"], ingredients = [["yeast","flour"]], supplies = ["yeast","flour","corn"]
-Output: ["bread"]
-Explanation:
-We can create "bread" since we have the ingredients "yeast" and "flour".
+
+Input: grid = [[1,2,3],[2,5,7],[3,5,1]], queries = [5,6,2]
+Output: [5,8,1]
+Explanation: The diagrams above show which cells we visit to get points for each query.
 Example 2:
 
-Input: recipes = ["bread","sandwich"], ingredients = [["yeast","flour"],["bread","meat"]], supplies = ["yeast","flour","meat"]
-Output: ["bread","sandwich"]
-Explanation:
-We can create "bread" since we have the ingredients "yeast" and "flour".
-We can create "sandwich" since we have the ingredient "meat" and can create the ingredient "bread".
-Example 3:
 
-Input: recipes = ["bread","sandwich","burger"], ingredients = [["yeast","flour"],["bread","meat"],["sandwich","meat","bread"]], supplies = ["yeast","flour","meat"]
-Output: ["bread","sandwich","burger"]
-Explanation:
-We can create "bread" since we have the ingredients "yeast" and "flour".
-We can create "sandwich" since we have the ingredient "meat" and can create the ingredient "bread".
-We can create "burger" since we have the ingredient "meat" and can create the ingredients "bread" and "sandwich".
+Input: grid = [[5,2,1],[1,1,2]], queries = [3]
+Output: [0]
+Explanation: We can not get any points because the value of the top left cell is already greater than or equal to 3.
  
 
 Constraints:
 
-n == recipes.length == ingredients.length
-1 <= n <= 100
-1 <= ingredients[i].length, supplies.length <= 100
-1 <= recipes[i].length, ingredients[i][j].length, supplies[k].length <= 10
-recipes[i], ingredients[i][j], and supplies[k] consist only of lowercase English letters.
-All the values of recipes and supplies combined are unique.
-Each ingredients[i] does not contain any duplicate values.
+m == grid.length
+n == grid[i].length
+2 <= m, n <= 1000
+4 <= m * n <= 105
+k == queries.length
+1 <= k <= 104
+1 <= grid[i][j], queries[i] <= 106
 
 
 
